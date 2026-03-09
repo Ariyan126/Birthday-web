@@ -336,7 +336,7 @@ function initSurprise() {
   if (!btn || !sec) return;
 
   // Lock surprise until the birthday (Asia/Karachi)
-  const TEST_MODE_UNLOCK = true;
+  const TEST_MODE_UNLOCK = false;
   const unlocked = TEST_MODE_UNLOCK ? true : isBirthdayTodayInKarachi();
 
   setWishLockState(unlocked);
@@ -838,5 +838,6 @@ initCountdown();
 initSurprise();
 initMusic();
 initButtons();
+
 
 
