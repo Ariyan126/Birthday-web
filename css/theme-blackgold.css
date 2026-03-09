@@ -1,0 +1,15 @@
+:root{
+  --bg0:#050505;
+  --bg1:#0c0c0c;
+  --text:#fff9e6;
+  --muted:rgba(255,249,230,.72);
+
+  --accent:#f5c542;   /* gold */
+  --accent2:#f59e0b;  /* amber */
+  --glow: rgba(245,197,66,.35);
+  --glow2: rgba(245,158,11,.28);
+}
+
+.topbar{background: rgba(0,0,0,.55)}
+.timecard{background: rgba(255,255,255,.03)}
+.heart{color:#f5c542; text-shadow: 0 0 18px rgba(245,197,66,.45)}

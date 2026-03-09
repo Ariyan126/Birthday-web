@@ -1,0 +1,14 @@
+:root{
+  --bg0:#0b0a18;
+  --bg1:#151332;
+  --text:#f7f6ff;
+  --muted:rgba(247,246,255,.78);
+
+  --accent:#a78bfa;   /* lavender */
+  --accent2:#7dd3fc;  /* baby blue */
+  --glow: rgba(167,139,250,.40);
+  --glow2: rgba(125,211,252,.34);
+}
+
+.badge{background:linear-gradient(135deg, rgba(255,255,255,.12), rgba(255,255,255,.06))}
+.btn--primary{filter:saturate(.95)}

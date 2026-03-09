@@ -1,0 +1,13 @@
+:root{
+  --bg0:#0f0411;
+  --bg1:#1a0720;
+  --text:#fff7fb;
+  --muted:rgba(255,247,251,.75);
+
+  --accent:#fb7185;   /* rose */
+  --accent2:#c084fc;  /* violet */
+  --glow: rgba(251,113,133,.36);
+  --glow2: rgba(192,132,252,.32);
+}
+
+.heart{color:#fb7185; text-shadow: 0 0 18px rgba(251,113,133,.55)}

@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0b061a" />
+  <meta name="description" content="A modern birthday wish website with countdown, gallery, music, hearts & confetti." />
+
+  <title>Happy Birthday ✨</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600;800&family=Great+Vibes&display=swap" rel="stylesheet">
+
+  <!-- Base + default theme (neon) -->
+  <link rel="stylesheet" href="css/base.css" />
+  <link id="themeStylesheet" rel="stylesheet" href="css/theme-neon.css" />
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎂</text></svg>"> 
+</head>
+<body>
+  <canvas id="fxCanvas" aria-hidden="true"></canvas>
+
+  <!-- Password gate (simple client-side gate for a static site) -->
+  <div id="passwordGate" class="passOverlay" aria-modal="true" role="dialog" aria-label="Enter password">
+    <div class="passOverlay__panel" role="document">
+      <div class="passOverlay__title">Password Required</div>
+      <div class="passOverlay__text">Enter the password to view this page.</div>
+
+      <form id="passwordForm" class="passOverlay__form" autocomplete="off">
+        <label class="passOverlay__label" for="passwordInput">Password</label>
+        <input id="passwordInput" class="passOverlay__input" type="password" inputmode="text" autocomplete="current-password" placeholder="Enter password" required />
+        <div id="passwordError" class="passOverlay__error" role="status" aria-live="polite"></div>
+        <button class="btn btn--primary passOverlay__btn" type="submit">
+          <span class="btn__icon" aria-hidden="true">🔒</span>
+          <span class="btn__text">Unlock</span>
+        </button>
+      </form>
+
+      <div class="passOverlay__fineprint">Tip: don’t share the link publicly if you want it private.</div>
+    </div>
+  </div>
+
+  <!-- Mobile autoplay helper: shown only if music autoplay is blocked -->
+  <div id="startOverlay" class="startOverlay" hidden>
+    <div class="startOverlay__panel">
+      <div class="startOverlay__title">Tap to start</div>
+      <div class="startOverlay__text">Your browser blocks autoplay. Tap once to start the background music ✨</div>
+      <button id="startBtn" class="btn btn--primary" type="button">
+        <span class="btn__icon" aria-hidden="true">♪</span>
+        <span class="btn__text">Start Music</span>
+      </button>
+      <button id="startSkipBtn" class="btn btn--ghost" type="button">Continue without music</button>
+    </div>
+  </div>
+
+  <div class="bg-orbs" aria-hidden="true">
+    <div class="orb o1"></div>
+    <div class="orb o2"></div>
+    <div class="orb o3"></div>
+  </div>
+
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand__mark" aria-hidden="true">✦</div>
+      <div class="brand__text">
+        <div class="brand__title">Birthday Wish</div>
+        <div class="brand__subtitle">made with care</div>
+      </div>
+    </div>
+
+    <div class="controls">
+      <label class="select" title="Switch theme">
+        <span class="select__label">Theme</span>
+        <select id="themeSelect" aria-label="Theme">
+          <option value="neon" selected>Neon</option>
+          <option value="pastel">Soft Pastel</option>
+          <option value="blackgold">Black & Gold</option>
+          <option value="cutepink">Cute Pink</option>
+          <option value="minimal">Minimal White</option>
+        </select>
+      </label>
+
+      <label class="select" title="Reduce animation / improve performance">
+        <span class="select__label">Effects</span>
+        <select id="fxSelect" aria-label="Effects">
+          <option value="auto" selected>Auto</option>
+          <option value="high">High</option>
+          <option value="low">Low</option>
+          <option value="off">Off</option>
+        </select>
+      </label>
+
+      <label class="select" title="Background music">
+        <span class="select__label">Music</span>
+        <select id="musicSelect" aria-label="Background music">
+          <option value="off" selected>Off</option>
+          <option value="m1">Track 1</option>
+          <option value="m2">Track 2</option>
+        </select>
+      </label>
+
+      <button id="confettiBtn" class="btn" type="button">
+        <span class="btn__icon" aria-hidden="true">✦</span>
+        <span class="btn__text">Confetti</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div class="hero__left">
+        <p class="badge">Happy Birthday</p>
+
+        <!-- EDIT THESE LINES -->
+        <h1 class="headline">
+          <span class="script">To</span>
+          <span class="name">Nadiaa</span>
+        </h1>
+
+        <p class="subhead" id="wishText">
+          <span data-wish="locked">A little message is waiting for you… come back on <strong>5 April</strong> ✨</span>
+          <span data-wish="unlocked" hidden>
+            Wishing you a day full of light, laughter, and the kind of happiness that stays.
+            You deserve the best — today and always.
+          </span>
+        </p>
+
+        <div class="countdown" aria-live="polite">
+          <div class="countdown__title">Countdown to 5 April</div>
+          <div class="countdown__grid" id="countdownGrid">
+            <div class="timecard"><div class="time" id="dd">--</div><div class="label">Days</div></div>
+            <div class="timecard"><div class="time" id="hh">--</div><div class="label">Hours</div></div>
+            <div class="timecard"><div class="time" id="mm">--</div><div class="label">Minutes</div></div>
+            <div class="timecard"><div class="time" id="ss">--</div><div class="label">Seconds</div></div>
+          </div>
+          <div class="countdown__note" id="countdownNote">Set for Asia/Karachi time.</div>
+        </div>
+
+        <div class="cta">
+          <button id="surpriseBtn" class="btn btn--primary" type="button" disabled>
+            <span class="btn__icon" aria-hidden="true">🎁</span>
+            <span class="btn__text">Open Surprise (will be opened on 5th April)</span>
+          </button>
+          <a class="btn btn--ghost" href="#gallery">
+            <span class="btn__icon" aria-hidden="true">📷</span>
+            <span class="btn__text">See Photos</span>
+          </a>
+        </div>
+
+        <div class="signature">
+          <div class="signature__line">— From <span class="from">Ariyan</span></div>
+        </div>
+      </div>
+
+      <div class="hero__right">
+        <div class="card">
+          <div class="card__glow" aria-hidden="true"></div>
+          <div class="card__content">
+            <div class="card__title">A short wish</div>
+            <p class="card__text" id="wishCardText">
+              <span data-wish="locked">Locked until 5 April.</span>
+              <span data-wish="unlocked" hidden>
+                May your year be brighter than neon,
+                softer than the night,
+                and filled with moments that feel like magic.
+              </span>
+            </p>
+            <div class="card__footer">
+              <span class="pill">5 April</span>
+              <span class="pill" id="statusPill">Counting down…</span>
+            </div>
+          </div>
+        </div>
+
+   
+      </div>
+    </section>
+
+    <section id="surprise" class="surpriseModal" hidden aria-modal="true" role="dialog" aria-label="Birthday Surprise">
+      <div class="surpriseModal__backdrop" data-close="1"></div>
+
+      <div class="surpriseModal__panel" role="document">
+        <div class="surpriseModal__top">
+          <h2 class="sectionTitle">Surprise</h2>
+          <button id="closeSurpriseBtn" class="btn btn--ghost" type="button" data-close="1">
+            <span class="btn__icon" aria-hidden="true">✕</span>
+            <span class="btn__text">Close</span>
+          </button>
+        </div>
+
+        <div class="surpriseFlow">
+          <div class="letter" id="letterBox">
+            <div class="letter__title">A little birthday note</div>
+            <p class="letter__text">
+              Happy Birthday! 🎂
+              I hope today brings you the kind of happiness that feels effortless — warm smiles, sweet moments, and little surprises that make your heart feel light.
+              You deserve to be celebrated, not just for one day, but for the beautiful person you are.
+              May this new year of your life be full of peace, confidence, and memories you’ll always want to keep.
+            </p>
+            <div class="letter__actions">
+              <button id="nextToCakeBtn" class="btn btn--primary" type="button">
+                <span class="btn__icon" aria-hidden="true">→</span>
+                <span class="btn__text">Next</span>
+              </button>
+            </div>
+            <div class="letter__hint">Tap Next to cut the cake ✨</div>
+          </div>
+
+          <div class="cakeStage" id="cakeStage" hidden>
+            <div class="cakeTitle">Tap the cake to cut it</div>
+
+            <div class="popperBurst" id="popperBurst" aria-hidden="true" hidden>
+              <div class="popperBurst__p p1">🎉</div>
+              <div class="popperBurst__p p2">🎊</div>
+              <div class="popperBurst__spark s1"></div>
+              <div class="popperBurst__spark s2"></div>
+              <div class="popperBurst__spark s3"></div>
+            </div>
+
+            <button id="cakeBtn" class="cake cake--img" type="button" aria-label="Birthday cake (tap to cut)">
+              <img id="cakeImg" class="cakeImg" src="assets/img/cake.png" alt="Birthday cake" draggable="false" />
+              <img id="cakeCutImg" class="cakeImg cakeImg--cut" src="assets/img/cake-cut.png" alt="Cut cake" draggable="false" hidden />
+            </button>
+
+            <div class="cakeHint" id="cakeHint">One tap = cut ✨</div>
+          </div>
+
+          <div class="finalCard" id="finalCard" hidden>
+            <div class="finalCard__title">Happy Birthday 🎂</div>
+            <div class="finalCard__text">
+              I hope you liked it — and consider this a small gift from my side.
+              <br />
+              May your day be beautiful, your year be bright, and your smile stay forever.
+            </div>
+
+            <div class="finalCard__actions">
+              <button id="replayBtn" class="btn btn--primary" type="button">
+                <span class="btn__icon" aria-hidden="true">↻</span>
+                <span class="btn__text">Replay</span>
+              </button>
+            </div>
+
+            <div class="finalCard__hint">Replay the surprise anytime.</div>
+          </div>
+        </div>
+
+        <div class="miniActions">
+          <button id="burstBtn" class="btn" type="button">Another confetti burst</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="gallery" class="gallery">
+      <!-- Fairy lights background only (from E:\01_Projects\fairy lights) -->
+      <div class="galleryDecor" aria-hidden="true">
+        <ul class="strand" aria-hidden="true">
+          <li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
+          <li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
+          <li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
+          <li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
+          <li></li><li></li><li></li>
+        </ul>
+      </div>
+
+      <div class="gallery__head">
+        <h2 class="sectionTitle">Photo Gallery</h2>
+        <p class="sectionText">Birthday girll</p>
+      </div>
+
+      <div class="marqueeWrap" aria-label="Photo gallery">
+        <div class="marquee" data-dir="left">
+          <div class="marquee__track" id="marqueeTrack1"></div>
+        </div>
+        <div class="marquee marquee--reverse" data-dir="right">
+          <div class="marquee__track" id="marqueeTrack2"></div>
+        </div>
+      </div>
+
+      <div class="gallery__foot">
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="footer__left">Made with <span class="heart" aria-hidden="true">♥</span> and good taste.</div>
+      <div class="footer__right">Theme CSS in <code>/css</code></div>
+    </footer>
+  </main>
+
+  <audio id="bgMusic" preload="none" loop>
+    <!-- Selectable background music (two tracks) -->
+    <source id="bgSource" src="assets/audio/music1.mp3" type="audio/mpeg" />
+  </audio>
+
+  <audio id="hbMusic" preload="none">
+    <!-- Put an mp3 in assets/audio/happy-birthday.mp3 -->
+    <source src="assets/audio/happy-birthday.mp3" type="audio/mpeg" />
+  </audio>
+
+  <audio id="popSfx" preload="auto">
+    <!-- Put an mp3 in assets/audio/popper.mp3 -->
+    <source src="assets/audio/popper.mp3" type="audio/mpeg" />
+  </audio>
+
+  <script src="js/main.js?v=20260308"></script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<svg class="svgLights" viewBox="0 0 1200 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <!-- cord -->
+  <path class="light_cord" d="M-10,70 C120,10 240,110 360,60 C480,10 600,120 720,62 C840,10 960,110 1080,58 C1140,40 1180,50 1210,70"/>
+
+  <!-- bulbs (simple) -->
+  <g transform="translate(0,0)">
+    <g transform="translate(120,72)">
+      <rect class="light_fixture" x="-6" y="-18" width="12" height="10" rx="2" />
+      <circle class="red_bulb bulb blink-1" cx="0" cy="0" r="10" />
+    </g>
+    <g transform="translate(240,58)">
+      <rect class="light_fixture" x="-6" y="-18" width="12" height="10" rx="2" />
+      <circle class="green_bulb bulb blink-2" cx="0" cy="0" r="10" />
+    </g>
+    <g transform="translate(360,76)">
+      <rect class="light_fixture" x="-6" y="-18" width="12" height="10" rx="2" />
+      <circle class="blue_bulb bulb blink-3" cx="0" cy="0" r="10" />
+    </g>
+    <g transform="translate(480,56)">
+      <rect class="light_fixture" x="-6" y="-18" width="12" height="10" rx="2" />
+      <circle class="white_bulb bulb blink-6" cx="0" cy="0" r="10" />
+    </g>
+    <g transform="translate(600,82)">
+      <rect class="light_fixture" x="-6" y="-18" width="12" height="10" rx="2" />
+      <circle class="gold_bulb bulb blink-9" cx="0" cy="0" r="10" />
+    </g>
+    <g transform="translate(720,58)">
+      <rect class="light_fixture" x="-6" y="-18" width="12" height="10" rx="2" />
+      <circle class="red_bulb bulb blink-4" cx="0" cy="0" r="10" />
+    </g>
+    <g transform="translate(840,80)">
+      <rect class="light_fixture" x="-6" y="-18" width="12" height="10" rx="2" />
+      <circle class="green_bulb bulb blink-5" cx="0" cy="0" r="10" />
+    </g>
+    <g transform="translate(960,60)">
+      <rect class="light_fixture" x="-6" y="-18" width="12" height="10" rx="2" />
+      <circle class="blue_bulb bulb blink-7" cx="0" cy="0" r="10" />
+    </g>
+    <g transform="translate(1080,76)">
+      <rect class="light_fixture" x="-6" y="-18" width="12" height="10" rx="2" />
+      <circle class="white_bulb bulb blink-10" cx="0" cy="0" r="10" />
+    </g>
+  </g>
+</svg>
