@@ -23,7 +23,7 @@ const THEME_MAP = {
 
 const PASSWORD_GATE = {
   // CHANGE THIS PASSWORD
-  password: '1234',
+  password: 'aries@#$',
   // sessionStorage = unlock for this browser tab only (recommended)
   storageKey: 'birthdayWishUnlocked'
 };
@@ -838,4 +838,5 @@ initCountdown();
 initSurprise();
 initMusic();
 initButtons();
+
 
