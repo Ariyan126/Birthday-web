@@ -23,7 +23,7 @@ const THEME_MAP = {
 
 const PASSWORD_GATE = {
   // CHANGE THIS PASSWORD
-  password: 'aries@#$',
+  password: '1234',
   // sessionStorage = unlock for this browser tab only (recommended)
   storageKey: 'birthdayWishUnlocked'
 };
@@ -284,14 +284,18 @@ async function openSurprise(sec) {
   // - Play Happy Birthday music
   const bg = document.getElementById('bgMusic');
   const hb = document.getElementById('hbMusic');
-  const musicBtn = document.getElementById('musicBtn');
+  const musicSelect = document.getElementById('musicSelect');
 
   try {
-    if (bg && !bg.paused) bg.pause();
-    if (musicBtn) {
-      musicBtn.setAttribute('aria-pressed', 'false');
-      const t = musicBtn.querySelector('.btn__text');
-      if (t) t.textContent = 'Music: Off';
+    // Hard-stop any background track when opening the Surprise modal
+    if (bg) {
+      bg.pause();
+      bg.currentTime = 0;
+    }
+    // Keep UI + stored setting in sync (this project uses a <select>)
+    if (musicSelect) {
+      musicSelect.value = 'off';
+      localStorage.setItem('musicTrack', 'off');
     }
 
     if (hb) {
@@ -332,7 +336,7 @@ function initSurprise() {
   if (!btn || !sec) return;
 
   // Lock surprise until the birthday (Asia/Karachi)
-  const TEST_MODE_UNLOCK = false;
+  const TEST_MODE_UNLOCK = true;
   const unlocked = TEST_MODE_UNLOCK ? true : isBirthdayTodayInKarachi();
 
   setWishLockState(unlocked);
@@ -469,9 +473,6 @@ function initSurprise() {
 }
 
 function initMusic() {
-  // If password gate is still active, don't trigger the autoplay overlay yet.
-  if (window.__PASSWORD_GATE_LOCKED__) return;
-
   const audio = document.getElementById('bgMusic');
   const source = document.getElementById('bgSource');
   const select = document.getElementById('musicSelect');
@@ -837,5 +838,4 @@ initCountdown();
 initSurprise();
 initMusic();
 initButtons();
-
 
